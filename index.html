@@ -2,196 +2,320 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PetHub</title>
+  <title>PetHub | For Pet Parents, With Love</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', Arial;
-      margin: 0;
-      background: #f4f6f8;
+    :root {
+      --primary: #1a4d2e; /* Darker, premium green */
+      --secondary: #ff9f43; /* Warm accent */
+      --bg-soft: #fcfdfa;
+      --card-bg: #ffffff;
+      --text-main: #2d3436;
+      --text-light: #636e72;
+      --radius: 12px;
+      --shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
 
-    header {
-      background: linear-gradient(135deg, #4CAF50, #2e7d32);
-      color: white;
-      padding: 15px;
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      background-color: var(--bg-soft);
+      color: var(--text-main);
+    }
+
+    /* TOP NAVIGATION */
+    nav {
+      background: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 15px; }
+    .location-tag { font-size: 11px; color: var(--text-light); border-left: 1px solid #eee; padding-left: 10px; }
+    .nav-right { display: flex; align-items: center; gap: 15px; font-size: 13px; }
+
+    /* SEARCH BAR */
+    .search-container {
+      padding: 10px 20px;
+      background: white;
+    }
+    .search-bar {
+      background: #f1f3f5;
+      border-radius: 50px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
       gap: 10px;
-      position: sticky;
-      top: 0;
     }
-
-    .logo {
-      font-size: 22px;
-    }
-
-    .brand {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .container {
-      padding: 15px;
-    }
-
-    .hero {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .offer {
-      background: #e8f5e9;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-      margin-top: 10px;
-      color: #2e7d32;
-    }
-
-    input {
-      padding: 10px;
-      width: 100%;
-      margin-top: 8px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-    }
-
-    .save-btn {
-      margin-top: 8px;
-      width: 100%;
-      background: #4CAF50;
-    }
-
-    .section-title {
-      font-weight: 600;
-      margin: 15px 0 10px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .product {
-      background: white;
-      padding: 12px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-
-    .product img {
-      width: 100%;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 8px;
-    }
-
-    button {
-      background: #25D366;
-      color: white;
+    .search-bar input {
       border: none;
-      padding: 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .cart {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 20px;
-      margin-bottom: 80px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .qty-controls button {
-      margin: 2px;
-      padding: 4px 8px;
-    }
-
-    .sticky-cart {
-      position: fixed;
-      bottom: 0;
+      background: transparent;
       width: 100%;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      color: white;
-      padding: 14px;
-      text-align: center;
-      font-weight: bold;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+
+    /* HERO SECTION */
+    .hero-banner {
+      background: #fdf8f3 url('https://www.transparenttextures.com/patterns/cubes.png');
+      border-radius: 20px;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content h1 { font-size: 28px; margin: 0; color: var(--primary); line-height: 1.2; }
+    .hero-content p { font-size: 14px; color: var(--text-light); margin: 10px 0; }
+    .hero-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+    .badge { font-size: 10px; background: white; padding: 6px 10px; border-radius: 50px; display: flex; align-items: center; gap: 5px; box-shadow: var(--shadow); }
+
+    /* CATEGORY ICONS */
+    .categories {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding: 10px 5px;
+      margin-bottom: 25px;
+      scrollbar-width: none;
+    }
+    .cat-item {
+      min-width: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .cat-icon {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      font-size: 20px;
+    }
+    .cat-item span { font-size: 11px; font-weight: 600; color: var(--text-light); }
+
+    /* PRODUCT CARDS */
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .section-header h2 { font-size: 18px; margin: 0; }
+    .view-all { color: var(--primary); font-size: 12px; font-weight: 700; text-decoration: none; }
+
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .product-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 15px;
+      position: relative;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .tag-bestseller {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: #fff4e6;
+      color: #fd7e14;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .product-card img { width: 100%; height: 110px; object-fit: contain; margin: 10px 0; }
+    .product-info h3 { font-size: 13px; margin: 5px 0; height: 36px; overflow: hidden; }
+    .product-info .price { font-weight: 700; color: var(--text-main); font-size: 15px; }
+    .add-to-cart {
+      width: 100%;
+      background: white;
+      border: 1px solid #eee;
+      color: var(--primary);
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 10px;
       cursor: pointer;
     }
+
+    /* REGISTRATION BOX */
+    .reg-box {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 30px 0;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .reg-text h3 { margin: 0; font-size: 16px; }
+    .reg-text p { font-size: 12px; color: var(--text-light); margin: 5px 0; }
+    .reg-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
+
+    /* CHECKOUT PANEL */
+    .checkout-panel {
+      background: white;
+      border-radius: 20px 20px 0 0;
+      padding: 25px 20px;
+      margin-top: 30px;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* STICKY FOOTER */
+    .footer-bar {
+      position: fixed;
+      bottom: 0; width: 100%;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      border-top: 1px solid #eee;
+      z-index: 1001;
+    }
+    .footer-item { font-size: 10px; color: var(--text-light); text-align: center; }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <div class="logo">🐾</div>
-    <div class="brand" id="greeting">PetHub</div>
-  </header>
+  <nav>
+    <div class="nav-left">
+      <div style="font-size: 20px;">🐾</div>
+      <div>
+        <strong style="display:block; font-size: 16px;">PetHub</strong>
+        <span style="font-size: 9px; color: var(--text-light);">For Pet Parents, With Love</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div id="greeting-box">
+        <span id="greeting" style="font-weight: 600;">Hi Pet Parent 👋</span>
+      </div>
+      <div style="position:relative" onclick="scrollToCart()">
+        🛒 <span id="cart-badge" style="position:absolute; top:-8px; right:-8px; background:var(--primary); color:white; font-size:9px; width:15px; height:15px; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="search-container">
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Search food, treats, toys & more...">
+    </div>
+  </div>
 
   <div class="container">
-
-    <div class="hero">
-      <h2>Smart Pet Care 🐶🐱</h2>
-      <p>Built for pet parents. Delivered with care.</p>
-
-      <div class="offer">
-        🎉 Free delivery for registered pets (2 orders/month)
+    
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="hero-content">
+        <h1>Happy Pets,<br>Happy Parents ❤️</h1>
+        <p>Nutritious food and essentials delivered to your door.</p>
+        <div class="hero-badges">
+          <div class="badge">✅ Trusted Quality</div>
+          <div class="badge">🚚 Quick Delivery</div>
+        </div>
       </div>
-
-      <input type="text" id="petName" placeholder="Enter your pet name (e.g., Bruno)">
-      <button class="save-btn" onclick="savePetName()">Save</button>
     </div>
 
-    <div class="section-title">Popular Products</div>
+    <!-- Category Selector -->
+    <div class="categories">
+      <div class="cat-item"><div class="cat-icon">🐕</div><span>Dog Food</span></div>
+      <div class="cat-item"><div class="cat-icon">🐈</div><span>Cat Food</span></div>
+      <div class="cat-item"><div class="cat-icon">🦴</div><span>Treats</span></div>
+      <div class="cat-item"><div class="cat-icon">🧸</div><span>Toys</span></div>
+      <div class="cat-item"><div class="cat-icon">💊</div><span>Care</span></div>
+    </div>
 
-    <div class="grid">
+    <!-- Products -->
+    <div class="section-header">
+      <h2>Popular Picks 🐾</h2>
+      <a href="#" class="view-all">View all products →</a>
+    </div>
 
-      <div class="product">
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="product-card">
+        <span class="tag-bestseller">Bestseller</span>
         <img src="https://m.media-amazon.com/images/I/61Y3XQXlFVL._SX679_.jpg">
-        <p><b>Pedigree 3kg</b></p>
-        <p>₹500</p>
-        <button onclick="addToCart('Pedigree 3kg', 500)">Add</button>
+        <div class="product-info">
+          <h3>Pedigree Adult Dog Food (3kg)</h3>
+          <div class="price">₹500</div>
+          <button class="add-to-cart" onclick="addToCart('Pedigree Adult', 500)">Add to Cart</button>
+        </div>
       </div>
-
-      <div class="product">
+      <!-- Product 2 -->
+      <div class="product-card">
         <img src="https://m.media-amazon.com/images/I/71dX5Z2pP-L._SX679_.jpg">
-        <p><b>Drools 3kg</b></p>
-        <p>₹450</p>
-        <button onclick="addToCart('Drools 3kg', 450)">Add</button>
+        <div class="product-info">
+          <h3>Drools Chicken & Egg (3kg)</h3>
+          <div class="price">₹450</div>
+          <button class="add-to-cart" onclick="addToCart('Drools Chicken', 450)">Add to Cart</button>
+        </div>
       </div>
-
-      <div class="product">
-        <img src="https://m.media-amazon.com/images/I/61xYg4Pp6qL._SX679_.jpg">
-        <p><b>Whiskas 1kg</b></p>
-        <p>₹300</p>
-        <button onclick="addToCart('Whiskas 1kg', 300)">Add</button>
-      </div>
-
     </div>
 
-    <div class="cart" id="cartSection">
-      <h3>Your Cart</h3>
+    <!-- Registration -->
+    <div class="reg-box">
+      <div style="font-size: 40px;">🐶</div>
+      <div class="reg-text">
+        <h3>New to PetHub?</h3>
+        <p>Register your pet to unlock exclusive free delivery!</p>
+        <input type="text" id="petNameInput" placeholder="Pet Name" style="width:100px; padding:5px; margin-bottom:5px; border:1px solid #eee;">
+        <button class="reg-btn" onclick="savePetName()">Register</button>
+      </div>
+    </div>
+
+    <!-- Checkout Panel -->
+    <div class="checkout-panel" id="cartSection">
+      <h2 style="margin-top:0">Your Cart</h2>
       <div id="cartItems"></div>
-      <h3 id="total"></h3>
-      <button onclick="placeOrder()">Place Order</button>
+      
+      <div style="background:#f8f9fa; padding:15px; border-radius:10px; margin:20px 0;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span>Subtotal</span>
+          <strong id="subtotal">₹0</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; color: var(--primary);">
+          <span>Delivery</span>
+          <strong>FREE</strong>
+        </div>
+      </div>
+
+      <!-- Address Logic -->
+      <div style="margin-bottom:20px;">
+        <label style="font-size: 12px; font-weight: 700;">Delivery Address</label>
+        <input type="text" id="address" placeholder="Enter full address" style="width:100%; padding:12px; margin-top:5px; border:1px solid #eee; border-radius:8px; box-sizing:border-box;">
+      </div>
+
+      <button onclick="placeOrder()" style="width:100%; background:var(--primary); color:white; border:none; padding:18px; border-radius:12px; font-weight:700; font-size:16px;">
+        Confirm Order via WhatsApp
+      </button>
     </div>
 
   </div>
 
-  <div class="sticky-cart" id="stickyBar" onclick="scrollToCart()">
-    Cart is empty
+  <!-- Space for sticky footer -->
+  <div style="height: 80px;"></div>
+
+  <div class="footer-bar">
+    <div class="footer-item">🏠<br>Home</div>
+    <div class="footer-item">🔍<br>Search</div>
+    <div class="footer-item">🛒<br>Cart</div>
+    <div class="footer-item">👤<br>Account</div>
   </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
