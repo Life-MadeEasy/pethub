@@ -1,147 +1,79 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Add to Cart
 function addToCart(name, price) {
-  let existingItem = cart.find(item => item.name === name);
-
-  if (existingItem) {
-    existingItem.qty += 1;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
+  let item = cart.find(i => i.name === name);
+  if (item) { item.qty += 1; } 
+  else { cart.push({ name, price, qty: 1 }); }
+  updateUI();
 }
 
-// Display Cart
-function displayCart() {
-  let cartDiv = document.getElementById("cartItems");
-  let total = 0;
+function updateUI() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  // Update Cart Badge
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cart-badge").innerText = count;
 
+  // Update Cart List
+  const cartDiv = document.getElementById("cartItems");
+  let total = 0;
   cartDiv.innerHTML = "";
 
   cart.forEach((item, index) => {
-    let subtotal = item.price * item.qty;
-    total += subtotal;
-
+    total += (item.price * item.qty);
     cartDiv.innerHTML += `
-      <div>
-        <p><b>${item.name}</b></p>
-        <p>₹${item.price} x ${item.qty} = ₹${subtotal}</p>
-        <div class="qty-controls">
-          <button onclick="increaseQty(${index})">+</button>
-          <button onclick="decreaseQty(${index})">-</button>
-          <button onclick="removeItem(${index})">❌</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #f8f9fa; padding-bottom:10px;">
+        <div style="font-size:13px;">
+          <strong>${item.name}</strong><br>
+          <span style="color:var(--text-light)">₹${item.price}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button onclick="changeQty(${index}, -1)" style="border:1px solid #eee; background:white; width:25px; height:25px; border-radius:5px;">-</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${index}, 1)" style="border:1px solid #eee; background:white; width:25px; height:25px; border-radius:5px;">+</button>
         </div>
       </div>
-      <hr>
     `;
   });
 
-  document.getElementById("total").innerText = "Total: ₹" + total;
-
-  updateStickyBar();
+  document.getElementById("subtotal").innerText = "₹" + total;
 }
 
-// Increase Qty
-function increaseQty(index) {
-  cart[index].qty += 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  updateUI();
 }
 
-// Decrease Qty
-function decreaseQty(index) {
-  if (cart[index].qty > 1) {
-    cart[index].qty -= 1;
-  } else {
-    cart.splice(index, 1);
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
-}
-
-// Remove Item
-function removeItem(index) {
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
-}
-
-// Save Pet Name
 function savePetName() {
-  let petName = document.getElementById("petName").value.trim();
-
-  if (!petName) {
-    alert("Please enter pet name");
-    return;
-  }
-
-  localStorage.setItem("petName", petName);
-  updateGreeting();
-}
-
-// Greeting
-function updateGreeting() {
-  let petName = localStorage.getItem("petName");
-
-  if (petName) {
-    document.getElementById("greeting").innerText =
-      `🐾 ${petName}'s Hub`;
-  } else {
-    document.getElementById("greeting").innerText = "PetHub";
+  const name = document.getElementById("petNameInput").value;
+  if (name) {
+    localStorage.setItem("petName", name);
+    location.reload(); // Refresh to update greeting
   }
 }
 
-// Sticky Cart Update
-function updateStickyBar() {
-  let count = cart.reduce((sum, item) => sum + item.qty, 0);
-  let total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-  let bar = document.getElementById("stickyBar");
-
-  if (count > 0) {
-    bar.innerText = `View Cart (${count} items) - ₹${total}`;
-  } else {
-    bar.innerText = "Cart is empty";
-  }
-}
-
-// Scroll to Cart
-function scrollToCart() {
-  document.getElementById("cartSection").scrollIntoView({
-    behavior: "smooth"
-  });
-}
-
-// Place Order
 function placeOrder() {
-  if (cart.length === 0) {
-    alert("Your cart is empty");
-    return;
-  }
+  const address = document.getElementById("address").value;
+  if (!address) return alert("Please enter delivery address");
+  if (cart.length === 0) return alert("Cart is empty");
 
-  let phone = "919876543210"; // replace
-  let petName = localStorage.getItem("petName") || "My Pet";
-
-  let message = "Hi, I’d like to place an order:\n\n";
-
-  cart.forEach((item, i) => {
-    message += `${i + 1}. ${item.name} - ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}\n`;
+  const petName = localStorage.getItem("petName") || "Pet";
+  let message = `*NEW ORDER: PETHUB* 🐾\n---\n`;
+  message += `👤 *Parent of:* ${petName}\n`;
+  message += `📍 *Address:* ${address}\n\n`;
+  
+  cart.forEach(item => {
+    message += `• ${item.name} x${item.qty} = ₹${item.price * item.qty}\n`;
   });
+  
+  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  message += `\n*Total Amount: ₹${total}*`;
 
-  let total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-  message += `\nTotal: ₹${total}`;
-  message += `\nPet Name: ${petName}`;
-
-  let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-  window.location.href = url;
+  window.location.href = `https://wa.me/918304848805?text=${encodeURIComponent(message)}`;
 }
 
-// Load
-displayCart();
-updateGreeting();
+// Init
+updateUI();
+const storedName = localStorage.getItem("petName");
+if (storedName) document.getElementById("greeting").innerText = `Hi ${storedName}'s Parent 👋`;
