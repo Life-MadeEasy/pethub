@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PetHub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial;
+      margin: 0;
+      background: #f4f6f8;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4CAF50, #2e7d32);
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+    }
+
+    .logo {
+      font-size: 22px;
+    }
+
+    .brand {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    .hero {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .offer {
+      background: #e8f5e9;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 10px;
+      color: #2e7d32;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .save-btn {
+      margin-top: 8px;
+      width: 100%;
+      background: #4CAF50;
+    }
+
+    .section-title {
+      font-weight: 600;
+      margin: 15px 0 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .product {
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    button {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      margin-bottom: 80px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .qty-controls button {
+      margin: 2px;
+      padding: 4px 8px;
+    }
+
+    .sticky-cart {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      padding: 14px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🐾</div>
+    <div class="brand" id="greeting">PetHub</div>
+  </header>
+
+  <div class="container">
+
+    <div class="hero">
+      <h2>Smart Pet Care 🐶🐱</h2>
+      <p>Built for pet parents. Delivered with care.</p>
+
+      <div class="offer">
+        🎉 Free delivery for registered pets (2 orders/month)
+      </div>
+
+      <input type="text" id="petName" placeholder="Enter your pet name (e.g., Bruno)">
+      <button class="save-btn" onclick="savePetName()">Save</button>
+    </div>
+
+    <div class="section-title">Popular Products</div>
+
+    <div class="grid">
+
+      <div class="product">
+        <img src="https://m.media-amazon.com/images/I/61Y3XQXlFVL._SX679_.jpg">
+        <p><b>Pedigree 3kg</b></p>
+        <p>₹500</p>
+        <button onclick="addToCart('Pedigree 3kg', 500)">Add</button>
+      </div>
+
+      <div class="product">
+        <img src="https://m.media-amazon.com/images/I/71dX5Z2pP-L._SX679_.jpg">
+        <p><b>Drools 3kg</b></p>
+        <p>₹450</p>
+        <button onclick="addToCart('Drools 3kg', 450)">Add</button>
+      </div>
+
+      <div class="product">
+        <img src="https://m.media-amazon.com/images/I/61xYg4Pp6qL._SX679_.jpg">
+        <p><b>Whiskas 1kg</b></p>
+        <p>₹300</p>
+        <button onclick="addToCart('Whiskas 1kg', 300)">Add</button>
+      </div>
+
+    </div>
+
+    <div class="cart" id="cartSection">
+      <h3>Your Cart</h3>
+      <div id="cartItems"></div>
+      <h3 id="total"></h3>
+      <button onclick="placeOrder()">Place Order</button>
+    </div>
+
+  </div>
+
+  <div class="sticky-cart" id="stickyBar" onclick="scrollToCart()">
+    Cart is empty
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
