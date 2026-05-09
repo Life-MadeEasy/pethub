@@ -92,6 +92,51 @@
             .reg-form { grid-template-columns: 1fr; } 
             .full-width { grid-column: span 1; } 
         }
+	/* Card Hover Effect */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* Button Hover Effects */
+.add-to-cart, .register-btn, .view-more-btn {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.add-to-cart:hover, .register-btn:hover {
+    background-color: #143d24; /* Darker Forest Green */
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(26, 77, 46, 0.3);
+}
+
+.add-to-cart:active, .register-btn:active {
+    transform: scale(0.98);
+}
+
+/* View More Button Hover */
+.view-more-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Navbar Logo Hover */
+nav div[onclick]:hover .brand-text {
+    opacity: 0.8;
+}
+
+/* Image scaling on card hover */
+.product-card:hover img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
     </style>
 </head>
 <body>
