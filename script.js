@@ -227,11 +227,13 @@ function toggleAllProducts() {
 
 // --- PLACE ORDER (WITH PINCODE VERIFICATION) ---
 function placeOrder() {
+
     const parentNameInput = document.getElementById("cartParentName").value.trim();
+    const phoneInput = document.getElementById("cartPhone").value.trim();       // ← ADD
     const addressInput = document.getElementById("cartAddress").value.trim();
     const pincodeInput = document.getElementById("cartPincode").value.trim();
 
-    if (!parentNameInput || !addressInput || !pincodeInput || cart.length === 0) {
+    if (!parentNameInput || !phoneInput || !addressInput || !pincodeInput || cart.length === 0) {   // ← ADD phoneInput to check
         return alert("Please fill in all delivery details and make sure your cart isn't empty!");
     }
 
@@ -245,6 +247,7 @@ function placeOrder() {
     let message = `*NEW ORDER: PETHUB* 🐾\n---\n`;
     message += `👤 *Parent:* ${parentNameInput}${role ? ` (${role})` : ''}\n`;
     message += `🐶 *Pet Name:* ${petName}\n`;
+    message += `📞 *Phone:* ${phoneInput}\n`;
     message += `📍 *Address:* ${addressInput}\n`;
     message += `📮 *Pincode:* ${pincodeInput}\n\n`;
     message += `*Items Ordered:*\n`;
@@ -297,7 +300,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const cartParentName = document.getElementById("cartParentName");
         if (cartParentName) cartParentName.value = storedParentName;
     }
-
+	const storedPhone = localStorage.getItem("whatsappNum");
+    if (storedPhone) {
+        const cartPhone = document.getElementById("cartPhone");
+        if (cartPhone) cartPhone.value = storedPhone;
+    }
     const addr1 = localStorage.getItem("userAddressPart1") || "";
     const addr2 = localStorage.getItem("userAddressPart2") || "";
     const landmark = localStorage.getItem("userLandmark") || "";
